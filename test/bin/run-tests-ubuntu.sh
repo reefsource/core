@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 unset CDPATH
@@ -24,6 +25,4 @@ uwsgi --http "localhost:8081" --master --http-keepalive \
   --env "SCITRAN_PERSISTENT_PATH=$SCITRAN_PERSISTENT_PATH" \
   --env "SCITRAN_PERSISTENT_DATA_PATH=$SCITRAN_PERSISTENT_DATA_PATH" &
 
-./test/bin/run-integration-tests.sh \
-    "$API_BASE_URL" \
-    "$SCITRAN_PERSISTENT_DB_URI"
+./test/bin/run-integration-tests.sh "$API_BASE_URL" "$SCITRAN_PERSISTENT_DB_URI"

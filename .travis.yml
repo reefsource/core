@@ -1,15 +1,29 @@
-sudo: required
-dist: trusty
+sudo: false
+language: python
+python:
+    - "2.7"
 
 services:
-  - mongodb
+    - mongodb
+
+addons:
+    apt:
+        sources:
+            - mongodb-3.2-precise
+        packages:
+            - mongodb-org-server
+
+cache:
+    pip: true
+    directories:
+        - $VIRTUAL_ENV/lib/node_modules
 
 install:
-  - bin/install-ubuntu.sh
-  - test/bin/setup-integration-tests-ubuntu.sh
+    - pip install -r requirements.txt
+    - ./test/bin/setup-integration-tests-ubuntu.sh
 
 script:
-  - SCITRAN_PERSISTENT_DB_PORT=27017 test/bin/run-tests-ubuntu.sh
+    - SCITRAN_PERSISTENT_DB_PORT=27017 test/bin/run-tests-ubuntu.sh
 
 after_success:
-  - coveralls
+    - coveralls

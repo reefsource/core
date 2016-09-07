@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 unset CDPATH
@@ -15,7 +16,6 @@ clean_up () {
   kill $API_PID || true
   rm -rf "$SCITRAN_PERSISTENT_PATH"
 }
-
 trap clean_up EXIT
 
 ./bin/install-dev-osx.sh
@@ -23,13 +23,11 @@ trap clean_up EXIT
 # Note this will fail with "unbound variable" errors if "set -u" is enabled
 . "$SCITRAN_RUNTIME_PATH/bin/activate"
 
-./test/bin/lint.sh api
+./test/bin/lint.sh
 
 ./test/bin/run-unit-tests.sh
 
-SCITRAN_RUNTIME_PORT=8081 \
-    SCITRAN_CORE_DRONE_SECRET=integration-tests \
-    ./bin/run-dev-osx.sh -T -U -I &
+SCITRAN_RUNTIME_PORT=8081 SCITRAN_CORE_DRONE_SECRET=integration-tests ./bin/run-dev-osx.sh -T -U -I &
 API_PID=$!
 
 ./test/bin/run-integration-tests.sh \
