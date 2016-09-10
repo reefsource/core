@@ -133,6 +133,7 @@ if [ "$SCITRAN_RUNTIME_UWSGI_INI" == "" ]; then
         --home "$SCITRAN_RUNTIME_PATH" \
         --wsgi-file "bin/api.wsgi" \
         --py-autoreload $AUTO_RELOAD_INTERVAL \
+        --static-index index.html --static-map /docs=docs \
         &
     UWSGI_PID=$!
 else
