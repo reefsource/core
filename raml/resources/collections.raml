@@ -43,3 +43,11 @@ post:
     responses:
       200:
         description: Collection was deleted
+  /sessions:
+    get:
+      description: List sessions in a collection
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include ../examples/output/sessions-list.json
