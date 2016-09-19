@@ -104,6 +104,7 @@ expected_mongo_schemas = set([
     'acquisition.json',
     'analysis.json',
     'collection.json',
+    'collection-update.json',
     'container.json',
     'file.json',
     'group.json',
