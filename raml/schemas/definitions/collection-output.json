@@ -1,0 +1,26 @@
+{
+    "type": "object",
+    "allOf": [
+        {"$ref": "../definitions/container.json"},
+        {"$ref":"../definitions/created-modified.json"}
+    ],
+    "properties": {
+        "public": {},
+        "label": {},
+        "metadata": {},
+        "curator": {"type": "string"},
+        "created":{},
+        "modified":{},
+        "_id":{"$ref":"../definitions/objectid.json"},
+        "permissions":{
+            "type":"array",
+            "items":{
+                "allOf":[
+                    {"$ref":"../definitions/permission.json"}
+                ]
+            }
+        }
+    },
+    "required": ["label"],
+    "additionalProperties": false
+}

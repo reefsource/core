@@ -2,12 +2,11 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Collection",
     "type": "object",
-    "allOf": [{"$ref": "container.json"}],
+    "allOf": [{"$ref": "../definitions/container.json"}],
     "properties": {
         "public": {},
         "label": {},
         "metadata": {},
-
         "curator": {"type": "string"}
     },
     "required": ["label"],
