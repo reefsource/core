@@ -4,6 +4,7 @@ var hooks = require('hooks');
 var job_id = '';
 var gear_name = '';
 var group_id = 'test_group';
+var collection_id = '';
 
 // Tests we're skipping, fix these
 
@@ -185,5 +186,20 @@ hooks.before("DELETE /groups/{GroupId} -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id
     };
+    done();
+});
+
+hooks.before("POST /collections -> 400", function(test, done) {
+    test.request.body.foo = "not an allowed property";
+    done();
+});
+
+hooks.after("GET /collections -> 200", function(test, done) {
+    collection_id = test.response.body[0]._id;
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId} -> 200", function(test, done) {
+    test.request.params.CollectionId = collection_id;
     done();
 });
