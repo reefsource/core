@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "allOf":[{"$ref":"subject.json"}],
+  "properties": {
+    "_id":              {},
+    "firstname":        {},
+    "lastname":         {},
+    "firstname_hash":   {},
+    "lastname_hash":    {},
+    "age":              {},
+    "sex":              {},
+    "race":             {},
+    "ethnicity":        {},
+    "code":             {},
+    "tags":             {},
+    "metadata":         {},
+    "files":            {}
+  },
+  "additionalProperties": false
+}

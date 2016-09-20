@@ -11,7 +11,7 @@
                 "metadata":     {"type": ["object", "null"]},
                 "files":        {
                     "type": ["array", "null"],
-                    "items": {"$ref": "file.json"}
+                    "items": {"$ref": "../definitions/file-input.json"}
                 }
             },
             "additionalProperties": false
@@ -26,10 +26,10 @@
                 "uid":          {"type": "string"},
                 "timestamp":    {"type": ["string", "null"], "format": "date-time"},
                 "timezone":     {"type": ["string", "null"]},
-                "subject":      {"$ref": "subject.json"},
+                "subject":      {"$ref": "../definitions/subject-input.json"},
                 "files":        {
                     "type": ["array", "null"],
-                    "items": {"$ref": "file.json"}
+                    "items": {"$ref": "../definitions/file-input.json"}
                 }
             },
             "additionalProperties": false,
@@ -48,7 +48,7 @@
                 "timezone":     {"type": ["string", "null"]},
                 "files":        {
                     "type": ["array", "null"],
-                    "items": {"$ref": "file.json"}
+                    "items": {"$ref": "../definitions/file-input.json"}
                 }
             },
             "additionalProperties": false,

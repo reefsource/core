@@ -1,8 +1,10 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Session",
     "type": "object",
-    "allOf": [{"$ref": "../definitions/session.json"}],
+    "allOf": [
+        {"$ref": "session.json"},
+        {"$ref":"created-modified.json"}
+    ],
     "properties": {
         "public": {},
         "archived": {},
@@ -12,8 +14,10 @@
         "uid":          {},
         "timestamp":    {},
         "timezone":     {},
-        "subject":      {"$ref":"../definitions/subject-input.json"}
+        "subject":      {"$ref":"subject-output.json"},
+        "created":{},
+        "modified":{}
     },
-    "required": ["label", "project"],
+    "required": ["label", "project", "created", "modified"],
     "additionalProperties": false
 }

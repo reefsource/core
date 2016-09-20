@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "allOf":[{"$ref":"file.json"}],
+  "properties": {
+    "name":           {},
+    "type":           {},
+    "mimetype":       {},
+    "instrument":     {},
+    "measurements": {},
+    "tags": {},
+    "metadata": {}
+  },
+  "additionalProperties": false
+}

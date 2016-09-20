@@ -6,13 +6,13 @@
 		"inputs": 		{
 							"type": ["array", "null"],
 						 	"items": {
-						 		"$ref": "file.json"
+						 		"$ref": "../definitions/file-input.json"
 							}
 						},
 		"outputs": 		{
 							"type": ["array", "null"],
 						 	"items": {
-						 		"$ref": "file.json"
+						 		"$ref": "../definitions/file-input.json"
 							}
 						},
 		"notes":        {"type": "array",  "items": {"$ref": "note.json"}},
