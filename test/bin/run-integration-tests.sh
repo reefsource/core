@@ -54,7 +54,7 @@ BASE_URL="$SCITRAN_SITE_API_URL" \
 
 PATH=$(npm bin):$PATH
 
-integration_test_node_modules="$( pwd )/node_modules"
+integration_test_node_modules="$( pwd )/node_modules/scitran-core-integration-tests/node_modules"
 
 newman run test/integration_tests/postman/integration_tests.postman_collection -e test/integration_tests/postman/environments/integration_tests.postman_environment
 
