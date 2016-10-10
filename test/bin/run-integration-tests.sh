@@ -59,7 +59,9 @@ newman run test/integration_tests/postman/integration_tests.postman_collection -
 integration_test_node_modules="$( npm config get prefix )/lib/node_modules/scitran-core-integration-tests/node_modules"
 
 echo "npm prefix"
-npm config get prefix
+npm_prefix=$( npm config get prefix )
+echo "$npm_prefix"
+ls $npm_prefix
 echo "integration test node modules"
 echo "$integration_test_node_modules"
 ls "$integration_test_node_modules"
