@@ -56,10 +56,10 @@ newman run test/integration_tests/postman/integration_tests.postman_collection -
 
 # Allow us to require modules from package.json,
 # since abao_test_hooks.js is not being called from the package directory
-integration_test_node_modules="$( npm config get prefix )/lib/node_modules/scitran-core-integration-tests/node_modules"
+integration_test_node_modules="$( npm prefix -g )/lib/node_modules/scitran-core-integration-tests/node_modules"
 
 echo "npm prefix"
-npm_prefix=$( npm config get prefix )
+npm_prefix=$( npm prefix -g )
 echo "$npm_prefix"
 ls $npm_prefix/lib
 ls $npm_prefix/lib/node_modules
