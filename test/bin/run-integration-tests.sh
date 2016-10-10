@@ -52,24 +52,13 @@ BASE_URL="$SCITRAN_SITE_API_URL" \
     MONGO_PATH="$MONGODB_URI" \
     py.test test/integration_tests/python
 
+PATH=$(npm bin):$PATH
+
 newman run test/integration_tests/postman/integration_tests.postman_collection -e test/integration_tests/postman/environments/integration_tests.postman_environment
-
-# Allow us to require modules from package.json,
-# since abao_test_hooks.js is not being called from the package directory
-integration_test_node_modules="$( npm prefix -g )/lib/node_modules/scitran-core-integration-tests/node_modules"
-
-echo "npm prefix"
-npm_prefix=$( npm prefix -g )
-echo "$npm_prefix"
-ls $npm_prefix/lib
-ls $npm_prefix/lib/node_modules
-echo "integration test node modules"
-echo "$integration_test_node_modules"
-ls "$integration_test_node_modules"
 
 # Have to change into definitions directory to resolve
 # relative $ref's in the jsonschema's
 pushd raml/schemas/definitions
-
-NODE_PATH="$integration_test_node_modules" abao ../../api.raml "--server=$SCITRAN_SITE_API_URL" "--hookfiles=../../../test/integration_tests/abao/abao_test_hooks.js"
+# NODE_PATH="$integration_test_node_modules"
+abao ../../api.raml "--server=$SCITRAN_SITE_API_URL" "--hookfiles=../../../test/integration_tests/abao/abao_test_hooks.js"
 popd
