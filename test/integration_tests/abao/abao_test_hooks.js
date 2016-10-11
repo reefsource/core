@@ -16,6 +16,8 @@ var test_session_2_id = null;
 var test_acquisition_1 = null;
 var test_acquisition_tag = 'test-acq-tag';
 var test_project_1 = null;
+var test_project_tag = 'test-project-tag';
+var delete_project_id = '';
 
 // Tests we're skipping, fix these
 
@@ -570,6 +572,11 @@ hooks.after("GET /projects -> 200", function(test, done) {
     done();
 });
 
+hooks.after("POST /projects -> 200", function(test, done) {
+    delete_project_id = test.response.body._id;
+    done();
+});
+
 hooks.before("POST /projects -> 400", function(test, done) {
     test.request.body.not_real = "an invalid property";
     done();
@@ -583,5 +590,65 @@ hooks.before("GET /projects/{ProjectId} -> 200", function(test, done) {
 hooks.before("PUT /projects/{ProjectId} -> 400", function(test, done) {
     test.request.params.ProjectId = test_project_1._id;
     test.request.body = {"not_real":"fake property"};
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId} -> 200", function(test, done) {
+    test.request.params.ProjectId = delete_project_id;
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/tags -> 200", function(test, done) {
+    test.request.params.ProjectId = test_project_1._id;
+    test.request.body = {
+        "value":test_project_tag
+    };
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/tags -> 400", function(test, done) {
+    test.request.params.ProjectId = test_project_1._id;
+    test.request.body = {
+        "value":""
+    };
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        TagValue : test_project_tag
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        TagValue : test_project_tag
+    };
+    test_project_tag = "new-tag-value";
+    test.request.body = {
+        "value":test_project_tag
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/tags/{TagValue} -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        TagValue : test_project_tag
+    };
+    test.request.body = {
+        "value":""
+    };
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        TagValue : test_project_tag
+    };
     done();
 });
