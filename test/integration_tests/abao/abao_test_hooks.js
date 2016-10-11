@@ -6,6 +6,7 @@ var assert = chai.assert;
 var job_id = '';
 var gear_name = 'test-case-gear';
 var group_id = 'test-group';
+var test_group = null;
 var delete_group_id = 'example_group';
 var collection_id = 'test-collection-1';
 var delete_collection_id = '';
@@ -157,12 +158,6 @@ hooks.before("GET /gears/{GearName} -> 200", function(test, done) {
     done();
 });
 
-hooks.before("GET /groups -> 200", function(test, done) {
-    // POST happens after GET, so hardcode a group_id
-    // group_id = test.response.body[0]._id;
-    done();
-});
-
 hooks.before("PUT /groups/{GroupId} -> 400", function(test, done) {
     test.request.params = {
         GroupId: group_id
@@ -184,7 +179,10 @@ hooks.before("GET /groups/{GroupId} -> 200", function(test, done) {
     done();
 });
 
-
+hooks.after("GET /groups/{GroupId} -> 200", function(test, done) {
+    test_group = test.response.body;
+    done();
+});
 
 hooks.before("DELETE /groups/{GroupId} -> 200", function(test, done) {
     test.request.params = {
@@ -196,6 +194,61 @@ hooks.before("DELETE /groups/{GroupId} -> 200", function(test, done) {
 hooks.before("POST /groups/{GroupId}/roles -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id
+    };
+    done();
+});
+
+hooks.before("POST /groups/{GroupId}/roles -> 400", function(test, done) {
+    test.request.params = {
+        GroupId: group_id
+    };
+    test.request.body.foo = "bar";
+    done();
+});
+
+hooks.before("GET /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        SiteId: test_group.roles[0].site,
+        UserId: test_group.roles[0]._id
+    };
+    done();
+});
+
+hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        SiteId: test_group.roles[0].site,
+        UserId: test_group.roles[0]._id
+    };
+    test.request.body = {
+        site: test_group.roles[0].site,
+        _id: test_group.roles[0]._id,
+        access: "ro"
+    };
+    done();
+});
+
+hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 400", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        SiteId: test_group.roles[0].site,
+        UserId: test_group.roles[0]._id
+    };
+    test.request.body = {
+        site: test_group.roles[0].site,
+        _id: test_group.roles[0]._id,
+        access: "rw",
+        not_a_real_property: "foo"
+    };
+    done();
+});
+
+hooks.before("DELETE /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        SiteId: test_group.roles[0].site,
+        UserId: test_group.roles[0]._id
     };
     done();
 });
