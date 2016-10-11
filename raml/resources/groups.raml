@@ -76,30 +76,10 @@ post:
             example: !include ../examples/input/permission-update.json
             schema: !include ../schemas/input/permission.json
   /tags:
-    type: container-item-list-property-append
+    type: tags-append
     post:
       description: |
         Add a tag to a group.
         Progates changes to projects, sessions and acquisitions
-      body:
-        application/json:
-          example: !include ../examples/input/tag.json
-          schema: !include ../schemas/input/tag.json
     /{TagValue}:
-      type: container-item-list-property
-      uriParameters:
-        TagValue:
-          description: The tag to interact with
-          type: string
-      get:
-        responses:
-          200:
-            body:
-              application/json:
-                example: !include ../examples/output/tag.json
-                schema: !include ../schemas/output/tag.json
-      put:
-        body:
-          application/json:
-            example: !include ../examples/input/tag.json
-            schema: !include ../schemas/input/tag.json
+      type: tags-list

@@ -13,6 +13,7 @@ var delete_collection_id = '';
 var test_session_1 = null;
 var test_session_2_id = null;
 var test_acquisition_1 = null;
+var test_acquisition_tag = "test-acq-tag";
 var test_project_1 = null;
 
 // Tests we're skipping, fix these
@@ -447,6 +448,63 @@ hooks.before("PUT /acquisitions/{AcquisitionId} -> 400", function(test, done) {
 
 hooks.before("DELETE /acquisitions/{AcquisitionId} -> 200", function(test, done) {
     test.request.params.AcquisitionId = example_acquisition._id;
+    done();
+});
+
+hooks.before("POST /acquisitions/{AcquisitionId}/tags -> 200", function(test, done) {
+    test.request.params.AcquisitionId = test_acquisition_1._id;
+    test.request.body = {
+        "value": test_acquisition_tag
+    };
+    done();
+});
+
+hooks.before("POST /acquisitions/{AcquisitionId}/tags -> 400", function(test, done) {
+    test.request.params.AcquisitionId = test_acquisition_1._id;
+    test.request.body = {
+        "value": test_acquisition_tag,
+        "bad property": "not a real property"
+    };
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        TagValue : test_acquisition_tag
+    };
+    done();
+});
+
+hooks.before("PUT /acquisitions/{AcquisitionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        TagValue : test_acquisition_tag
+    };
+    test_acquisition_tag = "new-tag-value";
+    test.request.body = {
+        "value": test_acquisition_tag
+    };
+    done();
+});
+
+hooks.before("PUT /acquisitions/{AcquisitionId}/tags/{TagValue} -> 400", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        TagValue : test_acquisition_tag
+    };
+    test.request.body = {
+        "value": test_acquisition_tag,
+        "bad property": "not a real property"
+    };
+    done();
+});
+
+hooks.before("DELETE /acquisitions/{AcquisitionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        TagValue : test_acquisition_tag
+    };
     done();
 });
 

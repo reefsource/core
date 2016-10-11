@@ -26,3 +26,7 @@ post:
       application/json:
         example: !include ../examples/input/acquisition-update.json
         schema: !include ../schemas/input/acquisition-update.json
+  /tags:
+    type: tags-append
+    /{TagValue}:
+      type: tags-list
