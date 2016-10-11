@@ -6,8 +6,8 @@ var assert = chai.assert;
 var job_id = '';
 var gear_name = 'test-case-gear';
 var group_id = 'test-group';
-var test_group = null;
 var delete_group_id = 'example_group';
+var test_group_tag = "test-group-tag";
 var collection_id = 'test-collection-1';
 var delete_collection_id = '';
 var test_session_1 = null;
@@ -179,11 +179,6 @@ hooks.before("GET /groups/{GroupId} -> 200", function(test, done) {
     done();
 });
 
-hooks.after("GET /groups/{GroupId} -> 200", function(test, done) {
-    test_group = test.response.body;
-    done();
-});
-
 hooks.before("DELETE /groups/{GroupId} -> 200", function(test, done) {
     test.request.params = {
         GroupId: delete_group_id
@@ -195,6 +190,11 @@ hooks.before("POST /groups/{GroupId}/roles -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id
     };
+    test.request.body = {
+        site: "local",
+        _id: "test@user.com",
+        access: "ro"
+    }
     done();
 });
 
@@ -209,8 +209,8 @@ hooks.before("POST /groups/{GroupId}/roles -> 400", function(test, done) {
 hooks.before("GET /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id,
-        SiteId: test_group.roles[0].site,
-        UserId: test_group.roles[0]._id
+        SiteId: "local",
+        UserId: "test@user.com"
     };
     done();
 });
@@ -218,13 +218,13 @@ hooks.before("GET /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(te
 hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id,
-        SiteId: test_group.roles[0].site,
-        UserId: test_group.roles[0]._id
+        SiteId: "local",
+        UserId: "test@user.com"
     };
     test.request.body = {
-        site: test_group.roles[0].site,
-        _id: test_group.roles[0]._id,
-        access: "ro"
+        site: "local",
+        _id: "test@user.com",
+        access: "admin"
     };
     done();
 });
@@ -232,12 +232,12 @@ hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(te
 hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 400", function(test, done) {
     test.request.params = {
         GroupId: group_id,
-        SiteId: test_group.roles[0].site,
-        UserId: test_group.roles[0]._id
+        SiteId: "local",
+        UserId:"test@user.com"
     };
     test.request.body = {
-        site: test_group.roles[0].site,
-        _id: test_group.roles[0]._id,
+        site: "local",
+        _id: "test@user.com",
         access: "rw",
         not_a_real_property: "foo"
     };
@@ -247,8 +247,69 @@ hooks.before("PUT /groups/{GroupId}/roles/{SiteId}/{UserId} -> 400", function(te
 hooks.before("DELETE /groups/{GroupId}/roles/{SiteId}/{UserId} -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id,
-        SiteId: test_group.roles[0].site,
-        UserId: test_group.roles[0]._id
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    done();
+});
+
+hooks.before("POST /groups/{GroupId}/tags -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id
+    };
+    test.request.body = {
+        "value":test_group_tag
+    };
+    done();
+});
+
+hooks.before("POST /groups/{GroupId}/tags -> 400", function(test, done) {
+    test.request.params = {
+        GroupId: group_id
+    };
+    test.request.body = {
+        "value":test_group_tag,
+        "bad property": "foo"
+    };
+    done();
+});
+
+hooks.before("GET /groups/{GroupId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        TagValue: test_group_tag
+    };
+    done();
+});
+
+hooks.before("PUT /groups/{GroupId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        TagValue: test_group_tag
+    };
+    test_group_tag = "a-new-tag";
+    test.request.body = {
+        "value":test_group_tag
+    };
+    done();
+});
+
+hooks.before("PUT /groups/{GroupId}/tags/{TagValue} -> 400", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        TagValue: test_group_tag
+    };
+    test.request.body = {
+        "value":test_group_tag,
+        "bad proeprty":"blah"
+    };
+    done();
+});
+
+hooks.before("DELETE /groups/{GroupId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id,
+        TagValue: test_group_tag
     };
     done();
 });
