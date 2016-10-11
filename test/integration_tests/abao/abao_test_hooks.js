@@ -13,6 +13,7 @@ var delete_collection_id = '';
 var test_collection_tag = 'test-collection-tag';
 var test_session_1 = null;
 var test_session_2_id = null;
+var test_session_tag = 'test-session-tag';
 var test_acquisition_1 = null;
 var test_acquisition_tag = 'test-acq-tag';
 var test_project_1 = null;
@@ -465,6 +466,61 @@ hooks.before("DELETE /sessions/{SessionId} -> 200", function(test, done) {
 
 hooks.before("GET /sessions/{SessionId}/jobs -> 200", function(test, done) {
   test.request.params.SessionId = test_session_1._id;
+  done();
+});
+
+hooks.before("POST /sessions/{SessionId}/tags -> 200", function(test, done) {
+  test.request.params.SessionId = test_session_1._id;
+  test.request.body = {
+      value: test_session_tag
+  };
+  done();
+});
+
+hooks.before("POST /sessions/{SessionId}/tags -> 400", function(test, done) {
+  test.request.params.SessionId = test_session_1._id;
+  test.request.body = {
+      value: ""
+  };
+  done();
+});
+
+hooks.before("GET /sessions/{SessionId}/tags/{TagValue} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      TagValue: test_session_tag
+  };
+  done();
+});
+
+hooks.before("PUT /sessions/{SessionId}/tags/{TagValue} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      TagValue: test_session_tag
+  };
+  test_session_tag = 'new-tag-value';
+  test.request.body = {
+      value: test_session_tag
+  };
+  done();
+});
+
+hooks.before("PUT /sessions/{SessionId}/tags/{TagValue} -> 400", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      TagValue: test_session_tag
+  };
+  test.request.body = {
+      value: ""
+  };
+  done();
+});
+
+hooks.before("DELETE /sessions/{SessionId}/tags/{TagValue} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      TagValue: test_session_tag
+  };
   done();
 });
 
