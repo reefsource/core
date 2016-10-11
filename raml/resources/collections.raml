@@ -64,6 +64,10 @@ post:
             application/json:
               example: !include ../examples/output/acquisition-list.json
               schema: !include ../schemas/output/acquisition-list.json
+  /tags:
+    type: tags-append
+    /{TagValue}:
+      type: tags-list
 /curators:
   get:
     description: List all curators of collections

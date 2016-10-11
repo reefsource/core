@@ -1,5 +1,5 @@
 var hooks = require('hooks');
-var chai = require("chai");
+var chai = require('chai');
 var assert = chai.assert;
 
 // Variables for passing results as input to subsequent tests
@@ -7,13 +7,14 @@ var job_id = '';
 var gear_name = 'test-case-gear';
 var group_id = 'test-group';
 var delete_group_id = 'example_group';
-var test_group_tag = "test-group-tag";
+var test_group_tag = 'test-group-tag';
 var collection_id = 'test-collection-1';
 var delete_collection_id = '';
+var test_collection_tag = 'test-collection-tag';
 var test_session_1 = null;
 var test_session_2_id = null;
 var test_acquisition_1 = null;
-var test_acquisition_tag = "test-acq-tag";
+var test_acquisition_tag = 'test-acq-tag';
 var test_project_1 = null;
 
 // Tests we're skipping, fix these
@@ -350,6 +351,61 @@ hooks.before("PUT /collections/{CollectionId} -> 400", function(test, done) {
 
 hooks.before("DELETE /collections/{CollectionId} -> 200", function(test, done) {
     test.request.params.CollectionId = delete_collection_id;
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/tags -> 200", function(test, done) {
+    test.request.params.CollectionId = collection_id;
+    test.request.body = {
+        "value":test_collection_tag
+    };
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/tags -> 400", function(test, done) {
+    test.request.params.CollectionId = collection_id;
+    test.request.body = {
+        "value":""
+    };
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        TagValue : test_collection_tag
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        TagValue : test_collection_tag
+    };
+    test_collection_tag = "new-tag-value";
+    test.request.body = {
+        "value":test_collection_tag
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/tags/{TagValue} -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        TagValue : test_collection_tag
+    };
+    test.request.body = {
+        "value":""
+    };
+    done();
+});
+
+hooks.before("DELETE /collections/{CollectionId}/tags/{TagValue} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        TagValue : test_collection_tag
+    };
     done();
 });
 
