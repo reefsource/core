@@ -44,7 +44,7 @@
               "modified":{"$ref":"../definitions/created-modified.json#/definitions/modified"},
               "permissions":{
                   "type":"array",
-                  "items":{"$ref":"../definitions/permission.json#"}
+                  "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
               }
           },
           "additionalProperties":false

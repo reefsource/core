@@ -35,13 +35,14 @@
                 "timestamp":    {"$ref":"#/definitions/timestamp"},
                 "timezone":     {"$ref":"#/definitions/timezone"},
                 "subject":      {
-                    "allOf":[{"$ref": "../definitions/subject.json#/definitions/subject-output"}]
+                    "type":"object",
+                    "allOf":[{"$ref": "../definitions/subject.json#/definitions/subject-output-default-required"}]
                 },
                 "created":{"$ref":"../definitions/created-modified.json#/definitions/created"},
                 "modified":{"$ref":"../definitions/created-modified.json#/definitions/modified"},
                 "permissions":{
                     "type":"array",
-                    "items":{"$ref":"../definitions/permission.json#"}
+                    "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
                 },
                 "group":{"$ref":"../definitions/group.json#/definitions/name"}
             },

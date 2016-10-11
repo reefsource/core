@@ -23,7 +23,7 @@
             "name":{"$ref":"#/definitions/name"},
             "roles": {
               "type": "array",
-              "items": {"$ref": "../definitions/permission.json#"},
+              "items": {"$ref": "../definitions/permission.json#/definitions/permission-output-default-required"},
               "uniqueItems": true
             },
             "created": {"$ref":"../definitions/created-modified.json#/definitions/created"},

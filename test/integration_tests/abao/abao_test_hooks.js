@@ -5,8 +5,9 @@ var assert = chai.assert;
 // Variables for passing results as input to subsequent tests
 var job_id = '';
 var gear_name = 'test-case-gear';
-var group_id = 'test_group';
-var collection_id = '';
+var group_id = 'test-group';
+var delete_group_id = 'example_group';
+var collection_id = 'test-collection-1';
 var delete_collection_id = '';
 var test_session_1 = null;
 var test_session_2_id = null;
@@ -186,6 +187,13 @@ hooks.before("GET /groups/{GroupId} -> 200", function(test, done) {
 
 
 hooks.before("DELETE /groups/{GroupId} -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: delete_group_id
+    };
+    done();
+});
+
+hooks.before("POST /groups/{GroupId}/roles -> 200", function(test, done) {
     test.request.params = {
         GroupId: group_id
     };

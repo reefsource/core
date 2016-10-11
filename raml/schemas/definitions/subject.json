@@ -54,6 +54,10 @@
               "metadata":         {"$ref":"#/definitions/metadata"}
             },
             "additionalProperties": false
+        },
+        "subject-output-default-required":{
+            "allOf":[{"$ref":"#/definitions/subject-output"}],
+            "required":["_id"]
         }
     }
 }
