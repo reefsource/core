@@ -38,5 +38,5 @@ post:
     type: packfile-end
   /files:
     type: file-list-upload
-  /files/{FileName}:
-    type: file-item
+    /{FileName}:
+      type: file-item

@@ -74,6 +74,11 @@ post:
     type: packfile
   /packfile-end:
     type: packfile-end
+  /files:
+    type: file-list-upload
+    /{FileName}:
+      type: file-item
+
 /curators:
   get:
     description: List all curators of collections

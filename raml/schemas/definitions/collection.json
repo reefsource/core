@@ -15,6 +15,12 @@
                 "permissions":{
                     "type":"array",
                     "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
+                },
+                "files":{
+                    "type":"array",
+                    "items":{
+                        "allOf":[{"$ref":"../definitions/file.json#/definitions/file-output"}]
+                    }
                 }
             },
             "additionalProperties":false

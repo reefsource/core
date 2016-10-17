@@ -426,6 +426,18 @@ hooks.before("DELETE /collections/{CollectionId}/tags/{TagValue} -> 200", functi
     done();
 });
 
+hooks.before("GET /collections/{CollectionId}/files/{FileName} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        FileName : "notes.txt"
+    };
+    test.request.query = {
+        "ticket":""
+    };
+    done();
+});
+
+
 hooks.after("GET /sessions -> 200", function(test, done) {
     test_session_1 = test.response.body[0];
     assert.equal(test_session_1.label, "test-session-1");
