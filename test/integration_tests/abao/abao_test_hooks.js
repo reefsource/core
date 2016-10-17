@@ -16,6 +16,7 @@ var test_session_2_id = null;
 var test_session_tag = 'test-session-tag';
 var test_acquisition_1 = null;
 var test_acquisition_tag = 'test-acq-tag';
+var example_acquisition_id = '';
 var test_project_1 = null;
 var test_project_tag = 'test-project-tag';
 var delete_project_id = '';
@@ -53,6 +54,19 @@ hooks.skip("POST /upload/uid -> 200");
 hooks.skip("POST /upload/uid-match -> 200");
 hooks.skip("POST /upload/uid-match -> 404");
 hooks.skip("POST /engine -> 200");
+hooks.skip("POST /collections/{CollectionId}/packfile-start -> 200");
+hooks.skip("POST /collections/{CollectionId}/packfile -> 200");
+hooks.skip("GET /collections/{CollectionId}/packfile-end -> 200");
+hooks.skip("POST /sessions/{SessionId}/packfile-start -> 200");
+hooks.skip("POST /sessions/{SessionId}/packfile -> 200");
+hooks.skip("GET /sessions/{SessionId}/packfile-end -> 200");
+hooks.skip("POST /acquisitions/{AcquisitionId}/packfile-start -> 200");
+hooks.skip("POST /acquisitions/{AcquisitionId}/packfile -> 200");
+hooks.skip("GET /acquisitions/{AcquisitionId}/packfile-end -> 200");
+hooks.skip("POST /projects/{ProjectId}/packfile-start -> 200");
+hooks.skip("POST /projects/{ProjectId}/packfile -> 200");
+hooks.skip("GET /projects/{ProjectId}/packfile-end -> 200");
+
 
 hooks.beforeEach(function (test, done) {
     test.request.query.root = "true"
@@ -527,7 +541,6 @@ hooks.before("DELETE /sessions/{SessionId}/tags/{TagValue} -> 200", function(tes
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];
     assert.equal(test_acquisition_1.label, "test-acquisition-1");
-    example_acquisition = test.response.body[1];
     done();
 });
 
@@ -538,6 +551,11 @@ hooks.before("GET /acquisitions/{AcquisitionId} -> 200", function(test, done) {
 
 hooks.before("POST /acquisitions -> 200", function(test, done) {
     test.request.body.session = test_session_1._id;
+    done();
+});
+
+hooks.after("POST /acquisitions -> 200", function(test, done) {
+    example_acquisition_id = test.response.body._id;
     done();
 });
 
@@ -561,7 +579,7 @@ hooks.before("PUT /acquisitions/{AcquisitionId} -> 400", function(test, done) {
 });
 
 hooks.before("DELETE /acquisitions/{AcquisitionId} -> 200", function(test, done) {
-    test.request.params.AcquisitionId = example_acquisition._id;
+    test.request.params.AcquisitionId = example_acquisition_id;
     done();
 });
 
@@ -622,9 +640,20 @@ hooks.before("DELETE /acquisitions/{AcquisitionId}/tags/{TagValue} -> 200", func
     done();
 });
 
+hooks.before("GET /acquisitions/{AcquisitionId}/files/{FileName} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        FileName : "test-1.dcm"
+    };
+    test.request.query = {
+        "ticket":""
+    };
+    done();
+});
+
 hooks.after("GET /projects -> 200", function(test, done) {
     test_project_1 = test.response.body[0];
-    assert.equal(test_project_1.label, "test-project");
+    assert.equal(test_project_1.label, "test-project-1");
     done();
 });
 
