@@ -154,7 +154,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\n\nvar jsonData = JSON.parse(responseBody);\n\ntests[\"Upload complte\"] = jsonData[0].name === \"test-1.dcm\";"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 400ms\"] = responseTime < 400;\n\nvar jsonData = JSON.parse(responseBody);\n\ntests[\"Upload complte\"] = jsonData[0].name === \"test-1.dcm\";"
 					}
 				}
 			],
@@ -464,6 +464,80 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"label\":\"test-collection-2\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Upload file to test-project-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/projects/{{test-project-1-id}}/files",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"src": "test/integration_tests/postman/test_files/notes.txt",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Upload file to test-session-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/sessions/{{test-session-1-id}}/files",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"src": "test/integration_tests/postman/test_files/notes.txt",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
 				},
 				"description": ""
 			},

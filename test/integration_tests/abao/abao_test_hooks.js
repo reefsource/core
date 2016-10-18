@@ -550,6 +550,14 @@ hooks.before("DELETE /sessions/{SessionId}/tags/{TagValue} -> 200", function(tes
   done();
 });
 
+hooks.before("GET /sessions/{SessionId}/files/{FileName} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      FileName : "notes.txt"
+  };
+  done();
+});
+
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];
     assert.equal(test_acquisition_1.label, "test-acquisition-1");
@@ -746,6 +754,17 @@ hooks.before("DELETE /projects/{ProjectId}/tags/{TagValue} -> 200", function(tes
     test.request.params = {
         ProjectId : test_project_1._id,
         TagValue : test_project_tag
+    };
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/files/{FileName} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        FileName : "notes.txt"
+    };
+    test.request.query = {
+        "ticket":""
     };
     done();
 });
