@@ -17,6 +17,8 @@ def move_file(path, target_path):
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
     shutil.move(path, target_path)
+    import traceback
+    traceback.print_stack()
 
 def move_form_file_field_into_cas(file_field):
     """
