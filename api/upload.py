@@ -127,6 +127,7 @@ def process_upload(request, strategy, container_type=None, id_=None, origin=None
         placer.process_file_field(field, info)
         print("body_file is seekable: {0}".format(request.is_body_seekable))
         print("body_file type: {0}".format(request.body_file))
+        print("file info: {0}".format(info))
 
     # Respond either with Server-Sent Events or a standard json map
     if placer.sse and not response:
