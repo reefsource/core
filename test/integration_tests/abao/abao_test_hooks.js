@@ -555,6 +555,9 @@ hooks.before("GET /sessions/{SessionId}/files/{FileName} -> 200", function(test,
       SessionId : test_session_1._id,
       FileName : "notes.txt"
   };
+  test.request.query = {
+      "ticket":""
+  };
   done();
 });
 
