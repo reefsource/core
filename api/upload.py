@@ -129,7 +129,9 @@ def process_upload(request, strategy, container_type=None, id_=None, origin=None
         print("body_file type: {0}".format(type(request.body_file)))
         print("file info: {0}".format(info))
         print("wsgi input type: {0}".format(type(request.environ["wsgi.input"])))
-        print("body_file raw type: {0}".format(type(request.body_file.raw))
+        print("body_file raw type: {0}".format(type(request.body_file.raw)))
+        print("body_file raw raw type: {0}".format(type(request.body_file.raw.file)))
+        print("raw raw is wsgi.input: {0}".format(request.body_file.raw.file is request.environ["wsgi.input"]))
 
     # Respond either with Server-Sent Events or a standard json map
     if placer.sse and not response:
