@@ -127,6 +127,7 @@ routes = [
     webapp2_extras.routes.PathPrefixRoute(r'/api/gears', [
         webapp2.Route(r'/<:[^/]+>',            GearHandler),
         webapp2.Route(r'/<:[^/]+>/invocation', GearHandler, handler_method='get_invocation'),
+        webapp2.Route(r'/<:[^/]+>/download',   GearHandler, handler_method='get_file'),
         webapp2.Route(r'/<:[^/]+>/suggest/<:[^/]+>/<:[^/]+>', GearHandler, handler_method='suggest'),
     ]),
     webapp2.Route(r'/api/rules',             RulesHandler),

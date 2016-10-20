@@ -16,6 +16,7 @@ log = config.log
 Strategy = util.Enum('Strategy', {
     'targeted'    : pl.TargetedPlacer,      # Upload N files to a container.
     'engine'      : pl.EnginePlacer,        # Upload N files from the result of a successful job.
+    'gear'        : pl.GearPlacer,          # Upload N files as a locally-stored gear.
     'token'       : pl.TokenPlacer,         # Upload N files to a saved folder based on a token.
     'packfile'    : pl.PackfilePlacer,      # Upload N files as a new packfile to a container.
     'labelupload' : pl.LabelPlacer,

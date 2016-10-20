@@ -3,6 +3,7 @@ API request handlers for the jobs module
 """
 
 import json
+import os
 import StringIO
 import gear_tools
 from jsonschema import Draft4Validator, ValidationError
@@ -10,6 +11,8 @@ from jsonschema import Draft4Validator, ValidationError
 from ..dao.containerutil import create_filereference_from_dictionary, create_containerreference_from_dictionary, create_containerreference_from_filereference, ContainerReference
 from .. import base
 from .. import config
+from .. import upload
+from .. import util
 
 from .gears import get_gears, get_gear_by_name, get_invocation_schema, remove_gear, upsert_gear, suggest_container
 from .jobs import Job
@@ -43,6 +46,20 @@ class GearHandler(base.RequestHandler):
 
         return get_gear_by_name(_id)
 
+    def get_file(self, _id):
+        """Download a local gear."""
+
+        gear = get_gear_by_name(_id)
+        if gear['input'].get('name') is None:
+            self.abort(500, 'Only local gears supported')
+
+        filepath = os.path.join(config.get_item('persistent', 'data_path'), util.path_from_hash(gear['input']['hash']))
+        self.response.app_iter = open(filepath, 'rb')
+
+        self.response.headers['Content-Length'] = str(gear['input']['size'])
+        self.response.headers['Content-Type'] = 'application/octet-stream'
+        self.response.headers['Content-Disposition'] = str('attachment; filename="' + gear['input']['name'] + '"')
+
     def get_invocation(self, _id):
 
         if self.public_request:
@@ -66,16 +83,20 @@ class GearHandler(base.RequestHandler):
     def post(self, _id):
         """Upsert an entire gear document."""
 
-        if not self.superuser_request:
-            self.abort(403, 'Request requires superuser')
-
-        doc = self.request.json
-
-        if _id != doc.get('name', ''):
-            self.abort(400, 'Name key must be present and match URL')
+        if self.public_request:
+            self.abort(403, 'Request requires login')
 
         try:
-            upsert_gear(self.request.json)
+            if self.is_true('upload'):
+                return upload.process_upload(self.request, upload.Strategy.gear, origin=self.origin)
+            else:
+                doc = self.request.json
+
+                if _id != doc.get('name', ''):
+                    self.abort(400, 'Name key must be present and match URL')
+
+                upsert_gear(self.request.json)
+
         except ValidationError as err:
             key = None
             if len(err.relative_path) > 0:

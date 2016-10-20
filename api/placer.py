@@ -16,6 +16,7 @@ from . import validators
 from .dao.containerstorage import SessionStorage, AcquisitionStorage
 from .dao import containerutil, hierarchy
 from .jobs import rules
+from .jobs import gears
 from .types import Origin
 
 
@@ -125,6 +126,24 @@ class TargetedPlacer(Placer):
     def finalize(self):
         self.recalc_session_compliance()
         return self.saved
+
+
+class GearPlacer(Placer):
+    """
+    A placer that can accept a gear file for local storage.
+    """
+
+    def check(self):
+        self.requireMetadata()
+
+    def process_file_field(self, field, info):
+        files.move_form_file_field_into_cas(field)
+        self.metadata['input'] = info
+        gears.upsert_gear(self.metadata)
+        self.saved.append(info)
+
+    def finalize(self):
+        return self.metadata
 
 
 class UIDPlacer(Placer):

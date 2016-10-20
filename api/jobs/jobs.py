@@ -65,7 +65,7 @@ class Job(object):
         # Trim tags array to unique members...
         tags = list(set(tags))
 
-        self.name    = name
+        self.name            = name
         self.inputs          = inputs
         self.destination     = destination
         self.tags            = tags
@@ -191,7 +191,17 @@ class Job(object):
         }
 
         # Add the gear
-        r['inputs'].append(gear['input'])
+        if gear['input'].get('uri') is not None:
+            r['inputs'].append(gear['input'])
+        elif gear['input'].get('name') is not None:
+            r['inputs'].append({
+                "uri" : "/gears/" + self.name + '/download',
+                "type" : "scitran",
+                "vu" : "vu0:sha384:" + gear['input']['hash'],
+                "location" : "/"
+            })
+        else:
+            raise Exception('Unknown gear input type for ' + self.name)
 
         # Map destination to upload URI
         r['outputs'][0]['uri'] = '/engine?level=' + self.destination.type + '&id=' + self.destination.id
