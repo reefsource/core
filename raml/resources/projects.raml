@@ -40,3 +40,7 @@ post:
     type: file-list-upload
     /{FileName}:
       type: file-item
+  /permissions:
+    type: permissions-list
+    /{SiteId}/{UserId}:
+      type: permissions-item

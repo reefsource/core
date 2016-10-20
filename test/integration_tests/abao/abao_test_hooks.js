@@ -437,6 +437,71 @@ hooks.before("GET /collections/{CollectionId}/files/{FileName} -> 200", function
     done();
 });
 
+hooks.before("POST /collections/{CollectionId}/permissions -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id
+    };
+    test.request.body = {
+        "_id":"test@user.com",
+        "site":"local",
+        "access":"ro"
+    };
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/permissions -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id
+    };
+    test.request.body = {
+        "not a valid":"permissions entry"
+    };
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    test.request.body = {
+        "site":"local",
+        "access":"rw",
+        "_id":"test@user.com"
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/permissions/{SiteId}/{UserId} -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    test.request.body = {
+        "not a valid":"permissions entry"
+    };
+    done();
+});
+
+hooks.before("DELETE /collections/{CollectionId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    done();
+});
 
 hooks.after("GET /sessions -> 200", function(test, done) {
     test_session_1 = test.response.body[0];
@@ -768,6 +833,72 @@ hooks.before("GET /projects/{ProjectId}/files/{FileName} -> 200", function(test,
     };
     test.request.query = {
         "ticket":""
+    };
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/permissions -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id
+    };
+    test.request.body = {
+        "_id":"test@user.com",
+        "site":"local",
+        "access":"ro"
+    };
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/permissions -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id
+    };
+    test.request.body = {
+        "not a valid":"permissions entry"
+    };
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    test.request.body = {
+        "site":"local",
+        "access":"rw",
+        "_id":"test@user.com"
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/permissions/{SiteId}/{UserId} -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        SiteId: "local",
+        UserId: "test@user.com"
+    };
+    test.request.body = {
+        "not a valid":"permissions entry"
+    };
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId}/permissions/{SiteId}/{UserId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        SiteId: "local",
+        UserId: "test@user.com"
     };
     done();
 });
