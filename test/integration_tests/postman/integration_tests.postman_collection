@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "test",
-		"_postman_id": "51bc3f2a-7a1e-1cf5-513e-323e9bed8608",
+		"_postman_id": "c2f801ad-4100-5855-7d8a-f2b1d7aca421",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -253,6 +253,35 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\"_id\":\"jane.doe@gmail.com\",\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":\"jane.doe@gmail.com\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add a note to test-acquisition-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/acquisitions/{{test-acquisition-1-id}}/notes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\":\"test note\"}"
 				},
 				"description": ""
 			},

@@ -739,6 +739,59 @@ hooks.before("GET /acquisitions/{AcquisitionId}/files/{FileName} -> 200", functi
     done();
 });
 
+hooks.before("POST /acquisitions/{AcquisitionId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id
+    };
+    done();
+});
+
+hooks.before("POST /acquisitions/{AcquisitionId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id
+    };
+    test.request.body.not_real = "invalid property";
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        NoteId: test_acquisition_1.notes[0]._id
+    };
+    done();
+});
+
+hooks.before("PUT /acquisitions/{AcquisitionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        NoteId: test_acquisition_1.notes[0]._id
+    };
+    test.request.body = {
+        "text":"updated note text"
+    };
+    done();
+});
+
+hooks.before("PUT /acquisitions/{AcquisitionId}/notes/{NoteId} -> 400", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        NoteId: test_acquisition_1.notes[0]._id
+    };
+    test.request.body = {
+        "invalid property":"specified"
+    };
+    done();
+});
+
+hooks.before("DELETE /acquisitions/{AcquisitionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        NoteId: test_acquisition_1.notes[0]._id
+    };
+    done();
+});
+
 hooks.after("GET /projects -> 200", function(test, done) {
     test_project_1 = test.response.body[0];
     assert.equal(test_project_1.label, "test-project-1");
