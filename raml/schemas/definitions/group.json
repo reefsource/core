@@ -28,7 +28,15 @@
             },
             "created": {"$ref":"../definitions/created-modified.json#/definitions/created"},
             "modified": {"$ref":"../definitions/created-modified.json#/definitions/modified"}
-          }
+          },
+          "additionalProperties":false,
+          "required": ["roles", "created","modified","_id"]
+        },
+        "group-output-list":{
+            "type":"array",
+            "items":{
+                "allOf":[{"$ref":"#/definitions/group-output"}]
+            }
         }
     }
 }
