@@ -1012,3 +1012,61 @@ hooks.before("DELETE /projects/{ProjectId}/permissions/{SiteId}/{UserId} -> 200"
     };
     done();
 });
+
+hooks.before("POST /projects/{ProjectId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id
+    };
+    test.request.body = {
+        "text":"test note"
+    };
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id
+    };
+    test.request.body = {
+        "not a real":"property"
+    };
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        NoteId: test_project_1.notes[0]._id
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        NoteId: test_project_1.notes[0]._id
+    };
+    test.request.body = {
+        "text":"updated note"
+    };
+    done();
+});
+
+hooks.before("PUT /projects/{ProjectId}/notes/{NoteId} -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        NoteId: test_project_1.notes[0]._id
+    };
+    test.request.body = {
+        "not a real":"property"
+    };
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId : test_project_1._id,
+        NoteId: test_project_1.notes[0]._id
+    };
+    done();
+});
