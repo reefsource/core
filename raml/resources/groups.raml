@@ -83,3 +83,12 @@ post:
         Progates changes to projects, sessions and acquisitions
     /{TagValue}:
       type: tags-list
+  /projects:
+    get:
+      description: Get projects in a group
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include ../examples/output/project-list.json
+              schema: !include ../schemas/output/project-list.json

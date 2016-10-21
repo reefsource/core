@@ -362,6 +362,13 @@ hooks.before("DELETE /groups/{GroupId}/tags/{TagValue} -> 200", function(test, d
     done();
 });
 
+hooks.before("GET /groups/{GroupId}/projects -> 200", function(test, done) {
+    test.request.params = {
+        GroupId: group_id
+    };
+    done();
+});
+
 hooks.after("GET /collections -> 200", function(test, done) {
     test_collection_1 = test.response.body[0];
     collection_id = test.response.body[0]._id;
@@ -1155,10 +1162,5 @@ hooks.before("DELETE /projects/{ProjectId}/notes/{NoteId} -> 200", function(test
         ProjectId : test_project_1._id,
         NoteId: test_project_1.notes[0]._id
     };
-    done();
-});
-
-hooks.before("GET /projects/{ProjectId}/groups -> 200", function(test, done) {
-    test.request.params.ProjectId = test_project_1._id;
     done();
 });
