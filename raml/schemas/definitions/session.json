@@ -51,7 +51,8 @@
                         "allOf":[{"$ref":"../definitions/file.json#/definitions/file-output"}]
                     }
                 },
-                "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]}
+                "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]},
+                "tags":{"allOf":[{"$ref":"../definitions/tag.json#/definitions/tag-output-list"}]}
             },
             "additionalProperties": false
         }

@@ -57,3 +57,19 @@ post:
     type: notes-list
     /{NoteId}:
       type: notes-item
+  /sessions:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include ../examples/output/session-list.json
+              schema: !include ../schemas/output/session-list.json
+  /acquisitions:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include ../examples/output/acquisition-list.json
+              schema: !include ../schemas/output/acquisition-list.json

@@ -9,6 +9,12 @@
       },
       "additionalProperties": false,
       "required": ["value"]
+    },
+    "tag-output-list":{
+      "type":"array",
+      "items":{
+        "allOf":[{"$ref":"#/definitions/tag"}]
+      }
     }
   }
 }

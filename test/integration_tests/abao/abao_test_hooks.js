@@ -1164,3 +1164,13 @@ hooks.before("DELETE /projects/{ProjectId}/notes/{NoteId} -> 200", function(test
     };
     done();
 });
+
+hooks.before("GET /projects/{ProjectId}/sessions -> 200", function(test, done) {
+    test.request.params.ProjectId = test_project_1._id;
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/acquisitions -> 200", function(test, done) {
+    test.request.params.ProjectId = test_project_1._id;
+    done();
+});

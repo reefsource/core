@@ -46,7 +46,8 @@
                   "type":"array",
                   "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
               },
-              "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]}
+              "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]},
+              "tags":{"allOf":[{"$ref":"../definitions/tag.json#/definitions/tag-output-list"}]}
           },
           "additionalProperties":false
         }
