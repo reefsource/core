@@ -683,6 +683,65 @@ hooks.before("GET /sessions/{SessionId}/files/{FileName} -> 200", function(test,
   done();
 });
 
+hooks.before("POST /sessions/{SessionId}/notes -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id
+  };
+  test.request.body = {
+      "text":"test note"
+  };
+  done();
+});
+
+hooks.before("POST /sessions/{SessionId}/notes -> 400", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id
+  };
+  test.request.body = {
+      "note a real":"property"
+  };
+  done();
+});
+
+hooks.before("GET /sessions/{SessionId}/notes/{NoteId} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      NoteId: test_session_1.notes[0]._id
+  };
+  done();
+});
+
+hooks.before("PUT /sessions/{SessionId}/notes/{NoteId} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      NoteId: test_session_1.notes[0]._id
+  };
+  test.request.body = {
+      "text":"new note"
+  };
+  done();
+});
+
+hooks.before("PUT /sessions/{SessionId}/notes/{NoteId} -> 400", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      NoteId: test_session_1.notes[0]._id
+  };
+  test.request.body = {
+      "not a real":"property"
+  };
+  done();
+});
+
+hooks.before("DELETE /sessions/{SessionId}/notes/{NoteId} -> 200", function(test, done) {
+  test.request.params = {
+      SessionId : test_session_1._id,
+      NoteId: test_session_1.notes[0]._id
+  };
+  done();
+});
+
+
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];
     assert.equal(test_acquisition_1.label, "test-acquisition-1");
