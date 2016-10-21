@@ -157,6 +157,34 @@ hooks.before("DELETE /users/{UserId} -> 200", function(test, done) {
     done();
 });
 
+hooks.before("GET /users/{UserId}/acquisitions -> 200", function(test, done) {
+    test.request.params = {
+        UserId: "admin@user.com"
+    };
+    done();
+});
+
+hooks.before("GET /users/{UserId}/collections -> 200", function(test, done) {
+    test.request.params = {
+        UserId: "admin@user.com"
+    };
+    done();
+});
+
+hooks.before("GET /users/{UserId}/projects -> 200", function(test, done) {
+    test.request.params = {
+        UserId: "admin@user.com"
+    };
+    done();
+});
+
+hooks.before("GET /users/{UserId}/sessions -> 200", function(test, done) {
+    test.request.params = {
+        UserId: "admin@user.com"
+    };
+    done();
+});
+
 hooks.before("GET /gears/{GearName} -> 200", function(test, done) {
     test.request.params = {
         GearName: gear_name

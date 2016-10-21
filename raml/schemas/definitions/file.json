@@ -21,11 +21,12 @@
         "origin":{
             "type":"object",
             "properties":{
-                "_id":{"type":"string"},
+                "id":{"type":"string"},
                 "method":{"type":"string"},
                 "type":{"type":"string"},
                 "name":{"type":"string"}
-            }
+            },
+            "additionalProperties":false
         },
         "hash":{"type":"string", "length":106},
         "size":{"type":"integer"},
