@@ -776,6 +776,10 @@ hooks.before("DELETE /sessions/{SessionId}/notes/{NoteId} -> 200", function(test
   done();
 });
 
+hooks.before("GET /sessions/{SessionId}/acquisitions -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    done();
+});
 
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];

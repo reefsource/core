@@ -19,6 +19,15 @@ post:
         application/json:
           example: !include ../examples/output/collection-new.json
           schema: !include ../schemas/output/collection-new.json
+/curators:
+  get:
+    description: List all curators of collections
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include ../examples/output/collection-curators-list.json
+            schema: !include ../schemas/output/collection-curators-list.json
 /{CollectionId}:
   uriParameters:
     CollectionId:
@@ -86,12 +95,3 @@ post:
     type: notes-list
     /{NoteId}:
       type: notes-item
-/curators:
-  get:
-    description: List all curators of collections
-    responses:
-      200:
-        body:
-          application/json:
-            example: !include ../examples/output/collection-curators-list.json
-            schema: !include ../schemas/output/collection-curators-list.json

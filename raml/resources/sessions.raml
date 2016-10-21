@@ -60,3 +60,12 @@ post:
     type: notes-list
     /{NoteId}:
       type: notes-item
+  /acquisitions:
+    get:
+      description: List acquisitions in a session
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include ../examples/output/acquisition-list.json
+              schema: !include ../schemas/output/acquisition-list.json
