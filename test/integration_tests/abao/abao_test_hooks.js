@@ -10,6 +10,7 @@ var delete_group_id = 'example_group';
 var test_group_tag = 'test-group-tag';
 var collection_id = 'test-collection-1';
 var delete_collection_id = '';
+var test_collection_1 = null;
 var test_collection_tag = 'test-collection-tag';
 var test_session_1 = null;
 var test_session_2_id = null;
@@ -334,6 +335,7 @@ hooks.before("DELETE /groups/{GroupId}/tags/{TagValue} -> 200", function(test, d
 });
 
 hooks.after("GET /collections -> 200", function(test, done) {
+    test_collection_1 = test.response.body[0];
     collection_id = test.response.body[0]._id;
     delete_collection_id = test.response.body[1]._id;
     done();
@@ -499,6 +501,61 @@ hooks.before("DELETE /collections/{CollectionId}/permissions/{SiteId}/{UserId} -
         CollectionId : collection_id,
         SiteId: "local",
         UserId: "test@user.com"
+    };
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id
+    };
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id
+    };
+    test.request.body = {
+        "not real":"property"
+    };
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        NoteId: test_collection_1.notes[0]._id
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        NoteId: test_collection_1.notes[0]._id
+    };
+    test.request.body = {
+        "text":"new note"
+    };
+    done();
+});
+
+hooks.before("PUT /collections/{CollectionId}/notes/{NoteId} -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        NoteId: test_collection_1.notes[0]._id
+    };
+    test.request.body = {
+        "note a":"real property"
+    };
+    done();
+});
+
+hooks.before("DELETE /collections/{CollectionId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        NoteId: test_collection_1.notes[0]._id
     };
     done();
 });

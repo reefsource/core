@@ -50,7 +50,8 @@
                     "items":{
                         "allOf":[{"$ref":"../definitions/file.json#/definitions/file-output"}]
                     }
-                }
+                },
+                "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]}
             },
             "additionalProperties": false
         }

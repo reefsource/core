@@ -82,7 +82,10 @@ post:
     type: permissions-list
     /{SiteId}/{UserId}:
       type: permissions-item
-
+  /notes:
+    type: notes-list
+    /{NoteId}:
+      type: notes-item
 /curators:
   get:
     description: List all curators of collections

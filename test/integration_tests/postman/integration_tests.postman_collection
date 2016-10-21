@@ -259,35 +259,6 @@
 			"response": []
 		},
 		{
-			"name": "add a note to test-acquisition-1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
-					}
-				}
-			],
-			"request": {
-				"url": "{{baseUri}}/acquisitions/{{test-acquisition-1-id}}/notes",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "scitran-user {{test_user_api_key}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"text\":\"test note\"}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "Submit invalid gear",
 			"event": [
 				{
@@ -439,7 +410,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\n\nvar jsonData = JSON.parse(responseBody);\n\npostman.setGlobalVariable(\"test-collection-id\", jsonData._id);"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\n\nvar jsonData = JSON.parse(responseBody);"
 					}
 				}
 			],
@@ -567,6 +538,122 @@
 							"value": ""
 						}
 					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add a note to test-project-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/projects/{{test-project-1-id}}/notes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\":\"test note\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add a note to test-session-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/sessions/{{test-session-1-id}}/notes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\":\"test note\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add a note to test-acquisition-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/acquisitions/{{test-acquisition-1-id}}/notes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\":\"test note\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add a note to test-collection-1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 200ms\"] = responseTime < 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/collections/{{test-collection-id}}/notes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\":\"test note\"\n}"
 				},
 				"description": ""
 			},
