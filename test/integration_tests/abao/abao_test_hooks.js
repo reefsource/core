@@ -1178,3 +1178,10 @@ hooks.before("GET /projects/{ProjectId}/acquisitions -> 200", function(test, don
     test.request.params.ProjectId = test_project_1._id;
     done();
 });
+
+hooks.before("GET /report/project -> 200", function(test, done) {
+    test.request.query = {
+        "projects":test_project_1._id
+    };
+    done();
+});

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "test",
-		"_postman_id": "c2f801ad-4100-5855-7d8a-f2b1d7aca421",
+		"_postman_id": "6a0382d6-deea-21f8-8d46-a9c78a2f2b18",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -173,7 +173,7 @@
 					"formdata": [
 						{
 							"key": "metadata",
-							"value": "{ \t\"group\": { \t\t\"_id\": \"{{test-group-id}}\" \t}, \t\"project\": { \t\t\"label\": \"test-project-1\" \t}, \t\"session\": { \t\t\"label\": \"test-session-1\" \t}, \t\"acquisition\": { \t\t\"label\": \"test-acquisition-1\", \t\t\"files\": [{ \t\t\t\"name\": \"test-1.dcm\" \t\t}] \t} }",
+							"value": "{ \t\"group\": { \t\t\"_id\": \"{{test-group-id}}\" \t}, \t\"project\": { \t\t\"label\": \"test-project-1\" \t}, \t\"session\": { \t\t\"label\": \"test-session-1\", \"subject\":{\"age\":25, \"sex\":\"male\", \"firstname\":\"xyz\"} \t}, \t\"acquisition\": { \t\t\"label\": \"test-acquisition-1\", \t\t\"files\": [{ \t\t\t\"name\": \"test-1.dcm\" \t\t}] \t} }",
 							"type": "text",
 							"enabled": true
 						},
