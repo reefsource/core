@@ -65,7 +65,7 @@
               "size":{"$ref":"#/definitions/size"}
             },
             "additionalProperties": false,
-            "required":["created", "modified", "size"]
+            "required":["modified", "size"]
         }
     }
 }
