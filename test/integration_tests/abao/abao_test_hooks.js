@@ -15,7 +15,7 @@ var test_collection_tag = 'test-collection-tag';
 var test_session_1 = null;
 var test_session_2_id = null;
 var test_session_tag = 'test-session-tag';
-var test_session_1_analysis_id = null;
+var test_session_1_analysis_2_id = null;
 var test_acquisition_1 = null;
 var test_acquisition_tag = 'test-acq-tag';
 var example_acquisition_id = '';
@@ -596,6 +596,69 @@ hooks.before("DELETE /collections/{CollectionId}/notes/{NoteId} -> 200", functio
     done();
 });
 
+hooks.before("GET /collections/{CollectionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id
+    };
+    done();
+});
+
+hooks.before("DELETE /collections/{CollectionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[1]._id
+    };
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId}/analyses/{AnalysisId}/files -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id
+    };
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("GET /collections/{CollectionId}/analyses/{AnalysisId}/files/{Filename} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id,
+        Filename: "test-1.dcm"
+    };
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/analyses/{AnalysisId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id
+    };
+    done();
+});
+
+hooks.before("POST /collections/{CollectionId}/analyses/{AnalysisId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id
+    };
+    test.request.body = {
+        "not a":"real property"
+    };
+    done();
+});
+
+hooks.before("DELETE /collections/{CollectionId}/analyses/{AnalysisId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        CollectionId : collection_id,
+        AnalysisId: test_collection_1.analyses[0]._id,
+        NoteId: test_collection_1.analyses[0].notes[0]._id
+    };
+    done();
+});
+
 hooks.after("GET /sessions -> 200", function(test, done) {
     test_session_1 = test.response.body[0];
     assert.equal(test_session_1.label, "test-session-1");
@@ -799,21 +862,60 @@ hooks.before("POST /sessions/{SessionId}/analyses -> 200", function(test, done) 
 });
 
 hooks.after("POST /sessions/{SessionId}/analyses -> 200", function(test, done) {
-    test_session_1_analysis_id = test.response.body._id;
+    test_session_1_analysis_2_id = test.response.body._id;
     done();
 });
 
 hooks.before("GET /sessions/{SessionId}/analyses/{AnalysisId} -> 200", function(test, done) {
     test.request.params.SessionId = test_session_1._id;
-    test.request.params.AnalysisId = test_session_1_analysis_id;
+    test.request.params.AnalysisId = test_session_1_analysis_2_id;
     done();
 });
 
 hooks.before("DELETE /sessions/{SessionId}/analyses/{AnalysisId} -> 200", function(test, done) {
     test.request.params.SessionId = test_session_1._id;
-    test.request.params.AnalysisId = test_session_1_analysis_id;
+    test.request.params.AnalysisId = test_session_1_analysis_2_id;
     done();
 });
+
+hooks.before("GET /sessions/{SessionId}/analyses/{AnalysisId}/files -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1.analyses[0]._id;
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("GET /sessions/{SessionId}/analyses/{AnalysisId}/files/{Filename} -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1.analyses[0]._id;
+    test.request.params.Filename = "test-1.dcm";
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("POST /sessions/{SessionId}/analyses/{AnalysisId}/notes -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1.analyses[0]._id;
+    done();
+});
+
+hooks.before("POST /sessions/{SessionId}/analyses/{AnalysisId}/notes -> 400", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1.analyses[0]._id;
+    test.request.body = {
+        "not a":"real property"
+    };
+    done();
+});
+
+hooks.before("DELETE /sessions/{SessionId}/analyses/{AnalysisId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1.analyses[0]._id;
+    test.request.params.NoteId = test_session_1.analyses[0].notes[0]._id;
+    done();
+});
+
+
 
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];
@@ -1013,6 +1115,43 @@ hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/files/{Fil
         Filename: "test-1.dcm"
     };
     test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("POST /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id
+    };
+    done();
+});
+
+hooks.before("POST /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id
+    };
+    test.request.body = {
+        "not a":"real property"
+    };
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id,
+        NoteId: test_acquisition_1.analyses[0].notes[0]._id
+    };
+    done();
+});
+
+hooks.before("DELETE /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id,
+        NoteId: test_acquisition_1.analyses[0].notes[0]._id
+    };
     done();
 });
 

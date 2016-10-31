@@ -95,3 +95,15 @@ post:
     type: notes-list
     /{NoteId}:
       type: notes-item
+  /analyses:
+    type: analyses-list
+    /{AnalysisId}:
+      type: analysis-item
+      /files:
+        type: analysis-files
+        /{Filename}:
+          type: analysis-files-create-ticket-filename
+      /notes:
+        type: analysis-notes-list
+        /{NoteId}:
+          type: analysis-notes-item

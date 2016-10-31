@@ -23,7 +23,14 @@
                     }
                 },
                 "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]},
-                "tags":{"allOf":[{"$ref":"../definitions/tag.json#/definitions/tag-output-list"}]}
+                "tags":{"allOf":[{"$ref":"../definitions/tag.json#/definitions/tag-output-list"}]},
+                "analyses":{
+                    "type":"array",
+                    "items":{
+                        "type":"object",
+                        "allOf":[{"$ref":"../definitions/analysis.json#/definitions/analysis-output"}]
+                    }
+                }
             },
             "additionalProperties":false
         }
