@@ -992,8 +992,27 @@ hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId} -> 200", f
 hooks.before("DELETE /acquisitions/{AcquisitionId}/analyses/{AnalysisId} -> 200", function(test, done) {
     test.request.params = {
         AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[1]._id
+    };
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/files -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
         AnalysisId: test_acquisition_1.analyses[0]._id
     };
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId}/files/{Filename} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id,
+        Filename: "test-1.dcm"
+    };
+    test.request.query.ticket = "";
     done();
 });
 

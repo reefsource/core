@@ -413,6 +413,49 @@
 			"response": []
 		},
 		{
+			"name": "Create acquisition 1 test-analysis 2 (file upload)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Response time is less than 400ms\"] = responseTime < 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{baseUri}}/acquisitions/{{test-acquisition-1-id}}/analyses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "scitran-user {{test_user_api_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "metadata",
+							"value": "{\"label\":\"test analysis\", \"inputs\": [{ \t\t\t\"name\": \"test-1.dcm\" \t\t}] }",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "file",
+							"src": "test/integration_tests/postman/test_files/test-1.dcm",
+							"type": "file",
+							"enabled": true,
+							"value": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Submit invalid gear",
 			"event": [
 				{

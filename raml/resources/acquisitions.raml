@@ -48,3 +48,7 @@ post:
     type: analyses-list
     /{AnalysisId}:
       type: analysis-item
+      /files:
+        type: analysis-files
+        /{Filename}:
+          type: analysis-files-create-ticket-filename
