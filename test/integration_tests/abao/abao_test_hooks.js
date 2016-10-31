@@ -1393,3 +1393,67 @@ hooks.before("GET /report/project -> 200", function(test, done) {
     };
     done();
 });
+
+hooks.before("GET /projects/{ProjectId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id
+    };
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[1]._id
+    };
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/analyses/{AnalysisId}/files -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id
+    };
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("GET /projects/{ProjectId}/analyses/{AnalysisId}/files/{Filename} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id,
+        Filename: "test-1.dcm"
+    };
+    test.request.query.ticket = "";
+    done();
+});
+
+hooks.before("POST /projects/{ProjectId}/analyses/{AnalysisId}/notes -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id
+    };
+    done();
+});
+
+
+hooks.before("POST /projects/{ProjectId}/analyses/{AnalysisId}/notes -> 400", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id
+    };
+    test.request.body = {
+        "not a":"real property"
+    }
+    done();
+});
+
+hooks.before("DELETE /projects/{ProjectId}/analyses/{AnalysisId}/notes/{NoteId} -> 200", function(test, done) {
+    test.request.params = {
+        ProjectId: test_project_1._id,
+        AnalysisId: test_project_1.analyses[0]._id,
+        NoteId: test_project_1.analyses[0].notes[0]._id
+    };
+    done();
+});
