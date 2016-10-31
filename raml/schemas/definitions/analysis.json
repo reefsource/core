@@ -55,6 +55,7 @@
 			                "metadata": {"$ref":"../definitions/file.json#/definitions/metadata"},
 			                "origin":{"$ref":"../definitions/file.json#/definitions/origin"},
 			                "hash":{"$ref":"../definitions/file.json#/definitions/hash"},
+							"created":{"$ref":"../definitions/created-modified.json#/definitions/created"},
 			                "modified":{"$ref":"../definitions/created-modified.json#/definitions/modified"},
 			                "size":{"$ref":"../definitions/file.json#/definitions/size"},
 							"input":{"type":"boolean"},
@@ -63,15 +64,19 @@
 						"additionalProperties":false
 					}
 				},
+				"job":{
+					"oneOf":[
+						{"$ref":"../definitions/objectid.json#"},
+						{"type":"object"}
+					]
+				},
 				"notes":{"$ref":"#/definitions/notes"},
 				"description":{"$ref":"#/definitions/description"},
-				"job":{"$ref":"../output/job.json#"},
 				"label":{"$ref":"#/definitions/label"},
 				"user":{"$ref":"#/definitions/user"},
 				"created":{"$ref":"../definitions/created-modified.json#/definitions/created"},
 				"modified":{"$ref":"../definitions/created-modified.json#/definitions/modified"}
 			},
-			"additionalProperties":false,
 			"required":["_id", "files", "label", "user", "created", "modified"]
 		}
     }

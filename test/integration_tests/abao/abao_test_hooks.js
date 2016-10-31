@@ -15,6 +15,7 @@ var test_collection_tag = 'test-collection-tag';
 var test_session_1 = null;
 var test_session_2_id = null;
 var test_session_tag = 'test-session-tag';
+var test_session_1_analysis_id = null;
 var test_acquisition_1 = null;
 var test_acquisition_tag = 'test-acq-tag';
 var example_acquisition_id = '';
@@ -781,6 +782,39 @@ hooks.before("GET /sessions/{SessionId}/acquisitions -> 200", function(test, don
     done();
 });
 
+hooks.before("POST /sessions/{SessionId}/analyses -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.query = {"job":"true"};
+    test.request.body = {
+        "analysis": {
+            "label": "Test Analysis 1"
+        },
+        "job" : {
+            "gear": "test-case-gear",
+            "inputs": {},
+            "tags": ["example"]
+        }
+    }
+    done();
+});
+
+hooks.after("POST /sessions/{SessionId}/analyses -> 200", function(test, done) {
+    test_session_1_analysis_id = test.response.body._id;
+    done();
+});
+
+hooks.before("GET /sessions/{SessionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1_analysis_id;
+    done();
+});
+
+hooks.before("DELETE /sessions/{SessionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params.SessionId = test_session_1._id;
+    test.request.params.AnalysisId = test_session_1_analysis_id;
+    done();
+});
+
 hooks.after("GET /acquisitions -> 200", function(test, done) {
     test_acquisition_1 = test.response.body[0];
     assert.equal(test_acquisition_1.label, "test-acquisition-1");
@@ -943,6 +977,22 @@ hooks.before("DELETE /acquisitions/{AcquisitionId}/notes/{NoteId} -> 200", funct
     test.request.params = {
         AcquisitionId : test_acquisition_1._id,
         NoteId: test_acquisition_1.notes[0]._id
+    };
+    done();
+});
+
+hooks.before("GET /acquisitions/{AcquisitionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id
+    };
+    done();
+});
+
+hooks.before("DELETE /acquisitions/{AcquisitionId}/analyses/{AnalysisId} -> 200", function(test, done) {
+    test.request.params = {
+        AcquisitionId : test_acquisition_1._id,
+        AnalysisId: test_acquisition_1.analyses[0]._id
     };
     done();
 });

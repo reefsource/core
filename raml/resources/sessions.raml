@@ -69,3 +69,22 @@ post:
             application/json:
               example: !include ../examples/output/acquisition-list.json
               schema: !include ../schemas/output/acquisition-list.json
+  /analyses:
+    type: analyses-list
+    post:
+      description: |
+        When query param "job" is "true", send JSON to create
+        an analysis and job.  Otherwise, multipart/form-data
+        to upload files and create an analysis.
+      body:
+        application/json:
+          schema: !include ../schemas/input/analysis-job.json
+          example: !include ../examples/input/analysis-job.json
+      responses:
+        200:
+          body:
+            application/json:
+              schema: !include ../schemas/output/container-new.json
+              example: !include ../examples/output/container-new.json
+    /{AnalysisId}:
+      type: analysis-item
