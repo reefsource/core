@@ -2,6 +2,7 @@
 API request handlers for the jobs module
 """
 
+import bson.objectid
 import json
 import StringIO
 import gear_tools
@@ -111,12 +112,23 @@ class RulesHandler(base.RequestHandler):
         return config.db.singletons.find_one({"_id" : "rules"})['rule_list']
 
     def post(self):
-        """Upsert all rules"""
+        """Hard-set all rules on every project."""
         if not self.superuser_request:
             self.abort(403, 'Request requires superuser')
 
         doc = self.request.json
-        config.db.singletons.replace_one({"_id" : "rules"}, {'rule_list': doc}, upsert=True)
+        config.db.projects.update_many({}, {"$set": {'rules': doc}})
+
+    def update_project_rules(self, cid):
+        """Hard-set a project's rule list."""
+
+        doc = self.request.json
+        rules = doc['rules']
+
+        if not isinstance(rules, list):
+            self.abort(400, 'Rules must be an array')
+
+        return config.db.projects.update_one({"_id": bson.ObjectId(cid)}, {"$set": {'rules': rules}})
 
 
 class JobsHandler(base.RequestHandler):

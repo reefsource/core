@@ -1,4 +1,5 @@
 from pymongo.cursor import Cursor
+from pymongo.results import UpdateResult
 import bson.objectid
 import datetime
 import json
@@ -13,6 +14,17 @@ def custom_json_serializer(obj):
         return pytz.timezone('UTC').localize(obj).isoformat()
     elif isinstance(obj, Job):
         return obj.map()
+    elif isinstance(obj, UpdateResult):
+
+        result = {
+            'acknowledged': obj.acknowledged,
+            'matched':      obj.matched_count,
+            'modified':     obj.modified_count
+        }
+        if obj.upserted_id:
+            result.update('upserted_id', obj.upserted_id)
+
+        return result
     elif isinstance(obj, Cursor):
         return list(obj)
     raise TypeError(repr(obj) + " is not JSON serializable")

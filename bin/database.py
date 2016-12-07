@@ -13,7 +13,7 @@ from api.jobs.jobs import Job
 from api.jobs import gears
 from api.types import Origin
 
-CURRENT_DATABASE_VERSION = 20 # An int that is bumped when a new schema change is made
+CURRENT_DATABASE_VERSION = 21 # An int that is bumped when a new schema change is made
 
 def get_db_version():
 
@@ -532,6 +532,19 @@ def upgrade_to_20():
     update = {'$rename': {'last-seen':'last_seen' }}
 
     config.db.devices.update_many(query, update)
+
+
+def upgrade_to_21():
+    """
+    Remove global gear rules, instead copying them to every project.
+    Leaves the door open to still add new global rules after the upgrade.
+    """
+
+    rule_doc = config.db.singletons.find_one({'_id': 'rules'}) or {}
+    rules = rule_doc.get('rule_list', [])
+
+    config.db.projects.update_many({}, {"$set": {'rules': rules}})
+    config.db.singletons.delete_one({"_id" : "rules"})
 
 
 def upgrade_schema():
