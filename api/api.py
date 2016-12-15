@@ -23,6 +23,7 @@ from .handlers import containerhandler
 from .handlers import collectionshandler
 from .handlers import resolvehandler
 from .handlers import searchhandler
+from .handlers import dataexplorerhandler
 from .handlers import schemahandler
 from .handlers import reporthandler
 from .handlers import devicehandler
@@ -192,6 +193,8 @@ routes = [
     webapp2.Route(_format(r'/api/search'),                                            searchhandler.SearchHandler, handler_method='advanced_search', name='es_proxy', methods=['POST']),
     webapp2.Route(_format(r'/api/search/files'),                                      searchhandler.SearchHandler, handler_method='get_datatree', name='es_data', methods=['GET']),
     webapp2.Route(_format(r'/api/search/<cont_name:{cont_name_re}>'),                 searchhandler.SearchHandler, name='es_proxy', methods=['GET']),
+    webapp2.Route(_format(r'/api/dataexplorer/search'),                               dataexplorerhandler.DataExplorerHandler, handler_method='search', methods=['POST']),
+    webapp2.Route(_format(r'/api/dataexplorer/facets'),                               dataexplorerhandler.DataExplorerHandler, handler_method='get_facets', methods=['GET']),
     webapp2.Route(_format(r'/api/schemas/<schema:{schema_re}>'),                      schemahandler.SchemaHandler, name='schemas', methods=['GET']),
     webapp2.Route(r'/api/report/<report_type:site|project>',                          reporthandler.ReportHandler, methods=['GET']),
     webapp2.Route(_format(r'/api/<cont_name:{cont_name_re}>/<cid:{cid_re}>/<list_name:analyses>'),
