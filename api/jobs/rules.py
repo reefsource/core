@@ -15,7 +15,7 @@ log = config.log
 #   "any": [
 #       ["file.type",             "dicom"     ] # Match the file's type
 #       ["file.name",             "*.dcm"     ] # Match a shell glob for the file name
-#       ["file.measurements",     "diffusion" ] # Match any of the file's measurements
+#       ["file.classification",   "diffusion" ] # Match any of the file's classifications
 #       ["container.has-type",    "bvec"      ] # Match the container having any file (including this one) with this type
 #   ]
 #
@@ -31,7 +31,7 @@ log = config.log
 MATCH_TYPES = [
     'file.type',
     'file.name',
-    'file.measurements',
+    'file.classification',
     'container.has-type'
 ]
 
@@ -62,13 +62,12 @@ def eval_match(match_type, match_param, file_, container):
     elif match_type == 'file.name':
         return fnmatch.fnmatch(file_['name'], match_param)
 
-    # Match any of the file's measurements
-    elif match_type == 'file.measurements':
-        try:
-            return match_param in file_['measurements']
-        except KeyError:
-            _log_file_key_error(file_, container, 'has no measurements key')
-            return False
+    # Match any of the file's classifications
+    elif match_type == 'file.classification':
+        for v in file_.get('classification', {}).itervalues():
+            if match_param in v:
+                return True
+        return False
 
     # Match the container having any file (including this one) with this type
     elif match_type == 'container.has-type':
