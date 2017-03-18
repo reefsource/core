@@ -1,7 +1,9 @@
 elasticsearch==1.9.0
 enum==0.4.6
+google-api-python-client==1.6.2
 jsonschema==2.5.1
 Markdown==2.6.5
+oauth2client==4.0.0
 pymongo==3.2
 pyOpenSSL==0.15.1
 python-dateutil==2.4.2

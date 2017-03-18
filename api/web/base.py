@@ -7,6 +7,9 @@ import traceback
 import urllib
 import urlparse
 import webapp2
+from oauth2client import client as google_client
+import httplib2
+from googleapiclient.discovery import build
 
 from .. import util
 from .. import files
@@ -154,39 +157,24 @@ class RequestHandler(webapp2.RequestHandler):
 
         # If we start supporting more than google and ldap, break into classes inherited from abstract class
         if auth_type == 'google':
-            r = requests.get(id_endpoint, headers={'Authorization': 'Bearer ' + access_token})
-        elif auth_type == 'ldap':
-            p = {'token': access_token}
-            r = requests.post(id_endpoint, data=p)
-        else:
-            raise self.abort(401, 'Auth not configured.')
+            CLIENT_SECRET_FILE = config.get_item('auth', 'client_secret')
+            credentials = google_client.credentials_from_clientsecrets_and_code(
+                CLIENT_SECRET_FILE,
+                ['https://www.googleapis.com/auth/drive.appdata', 'profile', 'email'],
+                access_token)
 
-        if not r.ok:
-            # Oauth authN failed; for now assume it was an invalid token. Could be more accurate in the future.
-            err_msg = 'Invalid OAuth2 token.'
-            site_id = config.get_item('site', 'id')
-            headers = {'WWW-Authenticate': 'Bearer realm="{}", error="invalid_token", error_description="{}"'.format(site_id, err_msg)}
-            self.request.logger.warning('{} Request headers: {}'.format(err_msg, str(self.request.headers.items())))
-            self.abort(401, err_msg, headers=headers)
+            # Call Google API
+            http_auth = credentials.authorize(httplib2.Http())
 
-        identity = json.loads(r.content)
-        email_key = 'email' if auth_type == 'google' else 'mail'
-        uid = identity.get(email_key)
+            # Get profile info from ID token
+            uid = credentials.id_token['email']
+            service = build('plus', 'v1', http=http_auth)
+            people_resource = service.people()
 
-        if not uid:
-            self.abort(400, 'OAuth2 token resolution did not return email address')
-
-        # If this is the first time they've logged in, record that
-        config.db.users.update_one({'_id': self.uid, 'firstlogin': None}, {'$set': {'firstlogin': timestamp}})
-
-        # Unconditionally set their most recent login time
-        config.db.users.update_one({'_id': self.uid}, {'$set': {'lastlogin': timestamp}})
-
-        # Set user's auth provider avatar
-        # TODO: switch on auth.provider rather than manually comparing endpoint URL.
-        if auth_type == 'google':
+            # Set user's auth provider avatar
+            user_profile = people_resource.get(userId=credentials.id_token['sub']).execute()
             # A google-specific avatar URL is provided in the identity return.
-            provider_avatar = identity.get('picture', '')
+            provider_avatar = user_profile['image']['url']
 
             # Remove attached size param from URL.
             u = urlparse.urlparse(provider_avatar)
@@ -199,6 +187,33 @@ class RequestHandler(webapp2.RequestHandler):
 
             # If the user has no avatar set, mark their provider_avatar as their chosen avatar.
             config.db.users.update_one({'_id': uid, 'avatar': {'$exists': False}}, {'$set':{'avatar': provider_avatar, 'modified': timestamp}})
+        elif auth_type == 'ldap':
+            p = {'token': access_token}
+            r = requests.post(id_endpoint, data=p)
+            if not r.ok:
+            # Oauth authN failed; for now assume it was an invalid token. Could be more accurate in the future.
+                err_msg = 'Invalid OAuth2 token.'
+                site_id = config.get_item('site', 'id')
+                headers = {'WWW-Authenticate': 'Bearer realm="{}", error="invalid_token", error_description="{}"'.format(site_id, err_msg)}
+                self.request.logger.warning('{} Request headers: {}'.format(err_msg, str(self.request.headers.items())))
+                self.abort(401, err_msg, headers=headers)
+            identity = json.loads(r.content)
+            uid = identity.get('mail')
+
+            if not uid:
+                self.abort(400, 'OAuth2 token resolution did not return email address')
+        else:
+            raise self.abort(401, 'Auth not configured.')
+
+
+
+        # If this is the first time they've logged in, record that
+        config.db.users.update_one({'_id': self.uid, 'firstlogin': None}, {'$set': {'firstlogin': timestamp}})
+
+        # Unconditionally set their most recent login time
+        config.db.users.update_one({'_id': self.uid}, {'$set': {'lastlogin': timestamp}})
+
+
 
         # Look to see if user has a Gravatar
         gravatar = util.resolve_gravatar(uid)
