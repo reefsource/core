@@ -8,13 +8,13 @@ Each album will contain multilple images. For each of them, there will be one ac
 # Admin Queries
 
 ## create a user
-
+```
 curl -X POST http://localhost/api/users?root=true -k -H Authorization:<AUTHORIZATION_TOKEN> -d '{
     "_id": "user@test.com",
     "firstname": "User",
     "lastname": "Test"
 }'
-
+```
 ## create a group
 
 This group already exists
