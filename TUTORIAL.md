@@ -81,8 +81,9 @@ the response to the previous request contains the acquisition id. Let say it is 
 ```
 METADATA='{"type":"gopro"}'
 curl -F "file=@GOPR0063.GPR" -F "metadata=$METADATA" -H Authorization:<AUTHORIZATION_TOKEN> https://localhost:8443/api/acquisitions/58a3b61bdc313a776756b456/files -k
-
+```
 
 ## download a file
-
+```
 curl https://localhost:8443/api/acquisitions/58a3b61bdc313a776756b456/files/GOPR0063.GPR -k -H Authorization:<AUTHORIZATION_TOKEN>
+```
